@@ -43,24 +43,78 @@
             <td><a href="http://nginx.org/">nginx.org</a>.</td>
          </tr>
          <tr>
-            <td>Commercial Support</td>
-            <td>:</td>
-            <td><a href="http://nginx.com/">nginx.com</a>.</td>
-         </tr>
-         <tr>
             <td>PHP Info</td>
             <td>:</td>
-            <td><a href="http://nginx.com/">phpinfo.php</a>.</td>
+            <td><a href="http://localhost/phpinfo.php">phpinfo.php</a>.</td>
          </tr>
          <tr>
             <td>PhpMyAdmin Database</td>
             <td>:</td>
-            <td><a href="http://nginx.com/">phpmyadmin.test</a>.</td>
+            <td><a href="http://phpmyadmin.test">phpmyadmin.test</a>.</td>
          </tr>
       </table>
 
       <p><em>Thank you for using nginx.</em></p>
+
+      <br><br>
+
+      <div id="web-url">
+         <h3>Website List:</h3>
+         <div class="web-list">
+            <p><a href="#">henbuk.com</a> <button data-id="0">delete</button></p>
+            <p><a href="#">henbuk-audio.com</a> <button>delete</button></p>
+            <p><a href="#">henbuk.com</a> <button>delete</button></p>
+         </div>
+         <button type="button" id="btn-add-list">Add list</button>
+      </div>
    </center>
+
+   <script type="text/javascript">
+      const dataKey = 'data'; // Key untuk menyimpan data di Local Storage
+
+      const dataList = document.querySelector('#web-url .web-list')
+      const btnAddList = document.getElementById('btn-add-list')
+
+      showData()
+
+      btnAddList.addEventListener('click', (e) => {
+         addData()
+      })
+
+      // Fungsi untuk menampilkan data dari Local Storage
+      function showData() {
+         let data = JSON.parse(localStorage.getItem(dataKey)) || [];
+         dataList.innerHTML = '';
+         
+         data.forEach(function(item, index) {
+            let listItem = document.createElement('p');
+            listItem.innerHTML = `<a href="${item.link}">${item.link}</a> <button onclick="deleteData(${index})">delete</button>`;
+            dataList.appendChild(listItem);
+         });
+      }
+
+      // Fungsi untuk menyimpan data ke Local Storage
+      function addData() {
+         const inputValue = prompt("Masukkan domain website: ");
+
+         let data = JSON.parse(localStorage.getItem(dataKey)) || [];
+         let newData = {
+            link: inputValue,
+         };
+         
+         data.push(newData);
+         localStorage.setItem(dataKey, JSON.stringify(data));
+         showData();
+      }
+      // Fungsi untuk menghapus data
+      function deleteData(index) {
+         let data = JSON.parse(localStorage.getItem(dataKey));
+         data.splice(index, 1);
+         localStorage.setItem(dataKey, JSON.stringify(data));
+         showData();
+      }
+
+   </script>
 </body>
 
 </html>
